@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+    {
     fullName: {
         type: String,
         required: true,
@@ -13,6 +14,10 @@ const UserSchema = new mongoose.Schema({
     passwordHash: {
         type: String,
         required: true,
+    },
+    CCount: {
+        type: Number,
+        default: 0,
     },
 },
 {
