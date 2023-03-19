@@ -7,7 +7,7 @@ import { registerVal, loginVal } from './validations/auth.js';
 import handleValidationErrors from './utils/handleValidationErrors.js';
 import { register, login } from './controlers/UserControler.js';
 import chauth from './utils/chauth.js';
-import { create, getOne } from './controlers/DraftControler.js';
+import { create, getOne, getAll } from './controlers/DraftControler.js';
 
 mongoose.connect(monURL)
 .then(() => console.log('DB OK'))
@@ -21,7 +21,8 @@ app.post('/login', loginVal, handleValidationErrors, login);
 app.post('/register', registerVal, handleValidationErrors, register);
 
 app.post('/', chauth, create);
-app.get('/', getOne);
+app.get('/:id', getOne);
+app.get('/', chauth, getAll);
 
 app.listen(4444, (err) => {
     if (err) {

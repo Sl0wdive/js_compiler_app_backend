@@ -1,4 +1,5 @@
 import DraftModel from "../models/Draft.js";
+import UserModel from "../models/User.js";
 
 export const create = async (req, res) => {
     try {
@@ -20,8 +21,9 @@ export const create = async (req, res) => {
 
 export const getOne = async (req, res) => {
     try {
-        const drafts = await DraftModel.find();
-        drafts.reverse();
+        const draftId = req.params.id;
+
+        const drafts = await DraftModel.findOne({ _id: draftId});
         res.json(drafts);
     } catch (err) {
         console.log(err);
@@ -30,3 +32,15 @@ export const getOne = async (req, res) => {
         });
     }
 };
+
+export const getAll = async (req, res) => {
+    try {
+        const user = await UserModel.findOne({ _id: req.userId });
+        const drafts = await DraftModel.find({ sender: user })
+        return res.json(drafts);
+    }
+    catch(err)
+    {
+      return res.status(400).json(err.message);
+    }
+  };
