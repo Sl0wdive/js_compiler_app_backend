@@ -3,14 +3,33 @@ import UserModel from "../models/User.js";
 
 export const create = async (req, res) => {
     try {
-        const doc = new DraftModel({
-            sender: req.userId,
-            content: req.body.content,
+        const user = await UserModel.findById(req.userId);
+
+        if (user.CCount < 3){
+            const doc = new DraftModel({
+                sender: req.userId,
+                content: req.body.content,
+            });
+            
+            const post = await doc.save();
+            
+            res.json(post);
+            await UserModel.findOneAndUpdate(
+                {
+                  _id: req.userId,
+                },
+                {
+                  $inc: { CCount: 1 },
+                },
+                {
+                    new: true,
+                }
+              );
+        }
+        else res.status(500).json({
+            message: 'Drafts amount limit',
         });
         
-        const post = await doc.save();
-        
-        res.json(post);
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -23,7 +42,7 @@ export const getOne = async (req, res) => {
     try {
         const draftId = req.params.id;
 
-        const drafts = await DraftModel.findOne({ _id: draftId});
+        const drafts = await DraftModel.find({ _id: draftId});
         res.json(drafts);
     } catch (err) {
         console.log(err);
@@ -43,4 +62,4 @@ export const getAll = async (req, res) => {
     {
       return res.status(400).json(err.message);
     }
-  };
+};
