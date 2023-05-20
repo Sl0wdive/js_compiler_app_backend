@@ -9,7 +9,7 @@ import chauth from './utils/chauth.js';
 import { create, getOne, getAll, deleteOne } from './controlers/DraftControler.js';
 import cors from 'cors';
 
-mongoose.connect(procces.env.MONURL)
+mongoose.connect(proccess.env.MONURL)
 .then(() => console.log('DB OK'))
 .catch((err) => console.log('DB ERROR', err));
 
