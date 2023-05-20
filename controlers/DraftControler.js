@@ -42,7 +42,7 @@ export const getOne = async (req, res) => {
     try {
         const draftId = req.params.id;
 
-        const drafts = await DraftModel.find({ _id: draftId});
+        const drafts = await DraftModel.findOne({ _id: draftId});
         res.json(drafts);
     } catch (err) {
         console.log(err);
@@ -62,4 +62,36 @@ export const getAll = async (req, res) => {
     {
       return res.status(400).json(err.message);
     }
+};
+
+export const deleteOne = async (req, res) => {
+    try {
+        
+        const user = await UserModel.findById(req.userId);
+
+        const draftId = req.params.id;
+        await DraftModel.findOneAndRemove(
+          {
+            _id: draftId,
+          });
+          res.send("Deleted!");
+
+            await UserModel.findOneAndUpdate(
+                {
+                  _id: req.userId,
+                },
+                {
+                  $inc: { CCount: -1 },
+                },
+                {
+                    new: true,
+                }
+              );
+        } catch (err) {
+          console.log(err);
+          res.status(500).json({
+            message: 'Failed to receive post',
+          });
+        }
+
 };

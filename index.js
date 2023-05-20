@@ -7,7 +7,7 @@ import { registerVal, loginVal } from './validations/auth.js';
 import handleValidationErrors from './utils/handleValidationErrors.js';
 import { register, login, me } from './controlers/UserControler.js';
 import chauth from './utils/chauth.js';
-import { create, getOne, getAll } from './controlers/DraftControler.js';
+import { create, getOne, getAll, deleteOne } from './controlers/DraftControler.js';
 import cors from 'cors';
 
 mongoose.connect(monURL)
@@ -26,6 +26,7 @@ app.get('/me', chauth, me);
 app.post('/', chauth, create);
 app.get('/:id', getOne);
 app.get('/', chauth, getAll);
+app.delete('/:id', chauth, deleteOne);
 
 app.listen(4444, (err) => {
     if (err) {
