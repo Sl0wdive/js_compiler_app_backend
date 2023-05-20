@@ -2,7 +2,6 @@ import express from 'express';
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
-import { password, monURL } from './passwords.js';
 import { registerVal, loginVal } from './validations/auth.js';
 import handleValidationErrors from './utils/handleValidationErrors.js';
 import { register, login, me } from './controlers/UserControler.js';
@@ -10,7 +9,7 @@ import chauth from './utils/chauth.js';
 import { create, getOne, getAll, deleteOne } from './controlers/DraftControler.js';
 import cors from 'cors';
 
-mongoose.connect(monURL)
+mongoose.connect(procces.env.MONURL)
 .then(() => console.log('DB OK'))
 .catch((err) => console.log('DB ERROR', err));
 
